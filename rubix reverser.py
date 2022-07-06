@@ -50,26 +50,36 @@ def comboadd(event):
     global moves_done
 
     moves_done.append(myCombo.get())
-    label = Label(root, text ="added")
+    label = Label(root, text ="                        added                          ")
     canvas.create_window(250, 220, window=label)
 
 def reverse():
     global moves_done
-    moves_done.reverse()
-    moves = ' '.join(moves_done)
-    
-    label = Label(root, text ="Reversed: " + str(moves))
-    canvas.create_window(250, 220, window=label)                                  
-    moves_done = []
+    if len(moves_done) > 0:
+        moves_done.reverse()
+        moves = ' '.join(moves_done)
+         
+        label = Label(root, text ="               Reversed: " + str(moves) + "                ")
+        canvas.create_window(250, 220, window=label)                                  
+        moves_done = []
+    else:  
+        label = Label(root, text ="                           No moves to reverse                           ")
+        canvas.create_window(250, 220, window=label)                                  
 
-
+def remove_move():
+    global moves_done
+    moves_done.pop() 
+    label = Label(root, text ="                     Removed last move                     ")
+    canvas.create_window(250, 220, window=label)
 
 myCombo = ttk.Combobox(root, value= moves_available)
 myCombo.current(0)
 myCombo.bind("<<ComboboxSelected>>", comboadd)
 canvas.create_window(250, 150, window = myCombo)
 myButtonReverse = Button(root, text = "Reverse", command = reverse) 
-canvas.create_window(250, 190, window= myButtonReverse)
+canvas.create_window(200, 190, window= myButtonReverse)
+myButtonRemove = Button(root, text="Remove mode", command = remove_move)
+canvas.create_window(290, 190, window= myButtonRemove)
 
 canvas.create_window(250, 50, window=labelTitle)
 canvas.create_window(250, 100, window=labelSubtitle)
